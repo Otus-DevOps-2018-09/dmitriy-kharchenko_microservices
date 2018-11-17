@@ -1,3 +1,4 @@
+REPOSITORY
 sha256:40b392a94849c242e4e3ee5e4d2b93643b5a99d681bacedbfde931fb8beb3889
 
 Основным отличием вывода docker inspect <u_container_id> от docker inspect <u_image_id> является вывод информации о ресурсах, предоставляемых котнейнеру.
