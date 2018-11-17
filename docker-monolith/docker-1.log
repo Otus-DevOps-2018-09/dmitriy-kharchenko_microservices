@@ -1,5 +1,6 @@
-TAG
-REPOSITORY
-sha256:40b392a94849c242e4e3ee5e4d2b93643b5a99d681bacedbfde931fb8beb3889
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+dmitriy-kharchenko/ubuntu-tmp-file   latest              4ed292e115c9        4 seconds ago       116MB
+image                                latest              494db0239042        6 minutes ago       116MB
+ubuntu                               16.04               4a689991aa24        4 weeks ago         116MB
 
 Основным отличием вывода docker inspect <u_container_id> от docker inspect <u_image_id> является вывод информации о ресурсах, предоставляемых котнейнеру.
