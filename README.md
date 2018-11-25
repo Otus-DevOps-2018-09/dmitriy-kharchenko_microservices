@@ -9,3 +9,7 @@ dmitriy-kharchenko microservices repository
 - Создание образа из контейнера
 - Описание разницы вывода команд `docker inspect <u_container_id>` от `docker inspect <u_image_id>`
 - Добавлена конфигурация Travis
+
+# Docker 2
+
+Флаг `--pid` шарит pid namespace с docker хостом
