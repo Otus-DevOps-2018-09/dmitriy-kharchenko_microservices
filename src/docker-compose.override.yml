@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  post_db:
+    volumes:
+      - post_db:/data/db
+  ui:
+    command: puma --debug -w 2
+    volumes:
+      - ./ui:/app
+  post:
+    volumes:
+      - ./post-py:/app
+  comment:
+    command: puma --debug -w 2
