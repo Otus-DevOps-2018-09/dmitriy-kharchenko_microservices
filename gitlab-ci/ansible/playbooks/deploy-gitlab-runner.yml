@@ -1,0 +1,41 @@
+---
+  - name: Deploy GitLab Runner
+    hosts: gitlab-runners
+    become: True
+
+    vars:
+      gitlab_container_name: ansible-gitlab-runner
+      gitlab_runnner_config_foler: /srv/ansible-gitlab-runner/config
+      gitlab_address: "{{ lookup('env','CI_SERVER_URL') }}"
+      gitlab_registration_token: "{{ lookup('env','REGISTRATION_TOKEN') }}"
+      gitlab_runner_description: Ansible runner
+      gitlab_tag_list: linux,xenial,ubuntu,docker
+      gitlab_executor: docker
+      gitlab_docker_image: alpine:latest
+
+    tasks:
+
+      - name: Install python-pip
+        apt:
+         name: "python-pip"
+         update_cache: yes
+
+      - name: Install pip docker for module docker_container
+        pip:
+          name: docker
+
+      - name: Start GitLab Docker container
+        docker_container:
+          image: gitlab/gitlab-runner:latest
+          name: "{{ gitlab_container_name }}"
+          restart_policy: always
+          volumes:
+            - "{{ gitlab_runnner_config_foler }}:/etc/gitlab-runner"
+            - "/var/run/docker.sock:/var/run/docker.sock"
+      
+      - name: Register GitLab Runner
+        command: |
+          docker exec {{ gitlab_container_name }} gitlab-runner register -n --url "{{ gitlab_address }}" -r "{{ gitlab_registration_token }}" \
+          --tag-list "{{ gitlab_tag_list }}" --run-untagged \
+          --description "{{ gitlab_runner_description }}" \
+          --executor "{{ gitlab_executor }}" --docker-image "{{ gitlab_docker_image }}"

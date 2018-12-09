@@ -56,3 +56,13 @@ dmitriy-kharchenko microservices repository
 - Созданы разные сети для взаимодействия контейнеров между собой
 - Параметризирован `docker-compose.yml`, пример хранится в `.env.example`
 - Конфигурация docker-compose позволяет менять код приложений без пересборки образов
+
+# GitLab CI 1
+
+В процессе работы сделано:
+
+- Установлен GitLab Server
+- Установлен GitLab CI Runner
+- Создана конфигурация `.gitlab-ci.yml` для тестирования проекта
+- В каталоге `gitlab-ci/ansible` создан Ansible playbook для деплоя GitLab CI Runner
+- Настроена интеграция GitLab со [Slack чатом](https://devops-team-otus.slack.com/messages/CDA48CY1W/)
