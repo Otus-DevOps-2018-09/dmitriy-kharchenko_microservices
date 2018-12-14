@@ -31,7 +31,7 @@ resource "google_compute_instance" "docker_host" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo docker run --rm -d -p 9292:9292 --name nginx ${var.docker_image}",
+      "sudo docker run -d -p 9292:9292 ${var.docker_image}",
     ]
   }
 }
