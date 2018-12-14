@@ -15,10 +15,11 @@ before_script:
   - bundle install 
 
 build_job:
-  image: docker:stable
   stage: build
+  services:
+    - docker:dind
   script:
-    - cd docker-monolith
+    - export DOCKER_HOST=tcp://docker:2375/
     - docker build -t reddit .
 
 test_unit_job:
