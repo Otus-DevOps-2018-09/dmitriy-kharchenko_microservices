@@ -58,7 +58,7 @@ branch review:
   variables:
     EXTERNAL_IP: $(cd gitlab-ci/terraform/; terraform output docker_host_external_ip)
   script:
-    - echo "Deploy"
+    - echo $EXTERNAL_IP
   environment:
     name: branch/$CI_COMMIT_REF_NAME
     url: http://$EXTERNAL_IP:9292
