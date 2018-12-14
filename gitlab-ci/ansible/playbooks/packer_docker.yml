@@ -1,0 +1,16 @@
+---
+- name: Install Docker
+  hosts: all
+  become: true
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+    - name: Install python-pip
+      apt:
+        name: "python-pip"
+        update_cache: yes
+
+    - name: Install pip docker for module docker_container
+      pip:
+        name: docker

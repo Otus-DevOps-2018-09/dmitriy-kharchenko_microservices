@@ -15,9 +15,11 @@ before_script:
   - bundle install 
 
 build_job:
+  image: docker:stable
   stage: build
   script:
-    - echo 'Building'
+    - cd docker-monolith
+    - docker build -t reddit .
 
 test_unit_job:
   stage: test
