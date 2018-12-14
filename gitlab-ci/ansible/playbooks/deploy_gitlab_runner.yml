@@ -38,4 +38,4 @@
           docker exec {{ gitlab_container_name }} gitlab-runner register -n --url "{{ gitlab_address }}" -r "{{ gitlab_registration_token }}" \
           --tag-list "{{ gitlab_tag_list }}" --run-untagged \
           --description "{{ gitlab_runner_description }}" \
-          --executor "{{ gitlab_executor }}" --docker-image "{{ gitlab_docker_image }} --docker-volumes /var/run/docker.sock:/var/run/docker.sock"
+          --executor "{{ gitlab_executor }}" --docker-image "{{ gitlab_docker_image }}" --docker-volumes /var/run/docker.sock:/var/run/docker.sock

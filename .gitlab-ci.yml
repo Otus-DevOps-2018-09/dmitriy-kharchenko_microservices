@@ -16,6 +16,7 @@ before_script:
 build_job:
   stage: build
   script:
+    - cd reddit
     - docker build -t reddit:$CI_COMMIT_REF_NAME .
 
 test_unit_job:
