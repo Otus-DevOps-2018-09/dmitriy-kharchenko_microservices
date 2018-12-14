@@ -4,7 +4,7 @@
     become: True
 
     vars:
-      gitlab_container_name: ansible-gitlab-runner
+      gitlab_container_name: docker-ansible-gitlab-runner
       gitlab_runnner_config_foler: /srv/ansible-gitlab-runner/config
       gitlab_address: "{{ lookup('env','CI_SERVER_URL') }}"
       gitlab_registration_token: "{{ lookup('env','REGISTRATION_TOKEN') }}"
@@ -28,7 +28,6 @@
         docker_container:
           image: gitlab/gitlab-runner:latest
           name: "{{ gitlab_container_name }}"
-          privileged: yes
           restart_policy: always
           volumes:
             - "{{ gitlab_runnner_config_foler }}:/etc/gitlab-runner"
@@ -39,4 +38,4 @@
           docker exec {{ gitlab_container_name }} gitlab-runner register -n --url "{{ gitlab_address }}" -r "{{ gitlab_registration_token }}" \
           --tag-list "{{ gitlab_tag_list }}" --run-untagged \
           --description "{{ gitlab_runner_description }}" \
-          --executor "{{ gitlab_executor }}" --docker-image "{{ gitlab_docker_image }} --docker-privileged --docker-volumes /var/run/docker.sock:/var/run/docker.sock"
+          --executor "{{ gitlab_executor }}" --docker-image "{{ gitlab_docker_image }} --docker-volumes /var/run/docker.sock:/var/run/docker.sock"

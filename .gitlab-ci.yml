@@ -1,4 +1,4 @@
-image: ruby:2.4.2
+image: docker:stable
 
 stages:
   - build
@@ -11,16 +11,12 @@ variables:
   DATABASE_URL: 'mongodb://mongo/user_posts'
 
 before_script:
-  - cd reddit
-  - bundle install 
+   - docker info
 
 build_job:
   stage: build
-  services:
-    - docker:dind
   script:
-    - export DOCKER_HOST=tcp://docker:2375/
-    - docker build -t reddit .
+    - docker build -t reddit:$CI_COMMIT_REF_NAME .
 
 test_unit_job:
   stage: test
