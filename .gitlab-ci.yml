@@ -32,14 +32,6 @@ test_integration_job:
 
 deploy_dev_job:
   stage: review
-  script:
-    - echo 'Deploy'
-  environment:
-    name: dev
-    url: http://dev.example.com
-
-branch review:
-  stage: review
   image:
     name: hashicorp/terraform:light
     entrypoint:
@@ -51,10 +43,21 @@ branch review:
     - export TF_VAR_docker_image=$DOCKER_IMAGE:$CI_COMMIT_REF_NAME
     - export TF_VAR_instance_name=$CI_COMMIT_REF_NAME
     - terraform apply -auto-approve
-    - export EXTERNAL_IP=`terraform output docker_host_external_ip`
   artifacts:
     paths:
       - gitlab-ci/terraform/terraform.tfstate
+
+branch review:
+  stage: review
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    EXTERNAL_IP: $(cd gitlab-ci/terraform/; terraform output docker_host_external_ip)
+  script:
+    - echo "Deploy"
   environment:
     name: branch/$CI_COMMIT_REF_NAME
     url: http://$EXTERNAL_IP:9292
@@ -87,6 +90,11 @@ production:
 
 clear:
   stage: clear
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   when: manual
   script:
     - cd gitlab-ci/terraform/
