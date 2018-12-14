@@ -66,3 +66,13 @@ dmitriy-kharchenko microservices repository
 - Создана конфигурация `.gitlab-ci.yml` для тестирования проекта
 - В каталоге `gitlab-ci/ansible` создан Ansible playbook для деплоя GitLab CI Runner
 - Настроена интеграция GitLab со [Slack чатом](https://devops-team-otus.slack.com/messages/CDA48CY1W/)
+
+# GitLab CI 2
+
+В процессе работы сделано:
+
+- Создан packer образ для создания инстанса с Docker
+- Создана конфигурация Terraform для деплоя сервера динамического окружения
+- Конфигурация Gitlab CI собирает docker образ приложения Reddit и загружает в Docker Hub
+- Настроена конфигурация для создания сервера под динамическое окружение и деплой образа на нем
+- Настроено удаление сервера динамическое окружения по кнопке
