@@ -3,6 +3,7 @@ image: docker:stable
 stages:
   - build
   - test
+  - deploy
   - review
   - stage
   - production
@@ -31,7 +32,7 @@ test_integration_job:
     - docker run --rm $DOCKER_IMAGE:$CI_COMMIT_REF_NAME ruby simpletest.rb 
 
 deploy_dev_job:
-  stage: review
+  stage: deploy
   image:
     name: hashicorp/terraform:light
     entrypoint:
