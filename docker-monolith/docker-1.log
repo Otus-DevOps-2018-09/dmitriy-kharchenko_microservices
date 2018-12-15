@@ -1,0 +1,10 @@
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+dmitriy-kharchenko/ubuntu-tmp-file   latest              4ed292e115c9        4 seconds ago       116MB
+image                                latest              494db0239042        6 minutes ago       116MB
+ubuntu                               16.04               4a689991aa24        4 weeks ago         116MB
+
+Основным отличием вывода docker inspect <u_container_id> от docker inspect <u_image_id> является вывод информации о ресурсах, предоставляемых котнейнеру.
+
+Образ - это слепок файловой системы, доступный только для чтения.
+
+Контейнер - это процесс, запущенный из образа.
