@@ -1,0 +1,12 @@
+---
+- name: Deploy App
+  hosts: app
+  become: True
+
+  tasks:
+    - name: Run Docker container
+      docker_container:
+        name: reddit
+        image: dkharchenko/otus-reddit:1.0
+        auto_remove: yes
+        network_mode: host

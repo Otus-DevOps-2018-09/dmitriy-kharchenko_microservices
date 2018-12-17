@@ -1,0 +1,105 @@
+image: docker:stable
+
+stages:
+  - build
+  - test
+  - deploy
+  - review
+  - stage
+  - production
+  - clear
+
+variables:
+  DATABASE_URL: 'mongodb://mongo/user_posts'
+
+build_job:
+  stage: build
+  before_script:
+    - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  script:
+    - cd reddit
+    - docker build -t $DOCKER_IMAGE:$CI_COMMIT_REF_NAME .
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_REF_NAME
+
+test_unit_job:
+  stage: test
+  script:
+    - echo 'Testing 1'
+
+test_integration_job:
+  stage: test
+  script:
+    - docker run --rm $DOCKER_IMAGE:$CI_COMMIT_REF_NAME ruby simpletest.rb 
+
+deploy_dev_job:
+  stage: deploy
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - cd gitlab-ci/terraform/
+    - terraform init
+    - export TF_VAR_docker_image=$DOCKER_IMAGE:$CI_COMMIT_REF_NAME
+    - export TF_VAR_instance_name=$CI_COMMIT_REF_NAME
+    - terraform apply -auto-approve
+  artifacts:
+    paths:
+      - gitlab-ci/terraform/terraform.tfstate
+
+branch review:
+  stage: review
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    EXTERNAL_IP: 'cd gitlab-ci/terraform/; terraform output docker_host_external_ip'
+  script:
+    - echo $EXTERNAL_IP
+  environment:
+    name: branch/$CI_COMMIT_REF_NAME
+    url: http://$EXTERNAL_IP:9292
+  only:
+    - branches
+  except:
+    - master
+
+staging:
+  stage: stage
+  when: manual
+  only:
+    - /^\d+\.\d+\.\d+/ 
+  script:
+    - echo 'Deploy'
+  environment:
+    name: stage
+    url: https://beta.example.com
+  
+production:
+  stage: production
+  when: manual
+  only:
+    - /^\d+\.\d+\.\d+/ 
+  script:
+    - echo 'Deploy'
+  environment:
+    name: production
+    url: https://example.com
+
+clear:
+  stage: clear
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  when: manual
+  script:
+    - cd gitlab-ci/terraform/
+    - terraform init
+    - export TF_VAR_docker_image=$DOCKER_IMAGE:$CI_COMMIT_REF_NAME
+    - export TF_VAR_instance_name=$CI_COMMIT_REF_NAME
+    - terraform destroy -auto-approve
