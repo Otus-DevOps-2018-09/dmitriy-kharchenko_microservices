@@ -1,5 +1,5 @@
 build: comment post ui cloudprober prometheus
-push: push_comment push_post push_ui push_cloudprober
+push: push_comment push_post push_ui push_cloudprober push_prometheus push_alertmanager
 
 comment:
 	cd src/comment && bash docker_build.sh
@@ -30,3 +30,6 @@ push_cloudprober:
 
 push_prometheus:
 	docker push ${USER_NAME}/prometheus
+
+push_alertmanager:
+	docker push ${USER_NAME}/alertmanager

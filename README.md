@@ -88,3 +88,7 @@ dmitriy-kharchenko microservices repository
 - Добавлен контейнер с cloudprober
 - Настроен мониторинг со всех сервисов
 - Добавлен Makefile для сборки и загрузки всех образов
+
+# Monitoring 2
+
+[Docker Hub](https://hub.docker.com/u/dkharchenko)
