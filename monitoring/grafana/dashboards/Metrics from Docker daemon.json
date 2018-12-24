@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 6,
   "links": [],
   "panels": [
     {
@@ -54,9 +55,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(post_count[1h])",
+          "expr": "irate(process_cpu_seconds_total{job=\"docker\"}[5m])",
           "format": "time_series",
           "intervalFactor": 1,
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
@@ -64,7 +66,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Post Rate",
+      "title": "CPU Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -138,10 +140,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(comment_count[1h])",
+          "expr": "engine_daemon_container_states_containers",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "",
+          "legendFormat": "{{ state }}",
           "refId": "A"
         }
       ],
@@ -149,7 +151,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Comment Rate",
+      "title": "Containers per state",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -187,7 +189,6 @@
       }
     }
   ],
-  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -195,7 +196,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -224,7 +225,7 @@
     ]
   },
   "timezone": "",
-  "title": "Business_Logic_Monitoring",
-  "uid": "lNZLINsik",
-  "version": 1
+  "title": "Metrics from Docker daemon",
+  "uid": "9VLurbymz",
+  "version": 3
 }

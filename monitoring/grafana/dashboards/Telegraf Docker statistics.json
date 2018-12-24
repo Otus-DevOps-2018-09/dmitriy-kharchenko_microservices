@@ -15,6 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -54,9 +55,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(post_count[1h])",
+          "expr": "docker_container_cpu_usage_percent",
           "format": "time_series",
           "intervalFactor": 1,
+          "legendFormat": "{{container_name}}",
           "refId": "A"
         }
       ],
@@ -64,7 +66,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Post Rate",
+      "title": "Docker CPU",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -138,10 +140,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(comment_count[1h])",
+          "expr": "rate(docker_container_mem_usage_percent[1m])",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "",
+          "legendFormat": "{{container_name}}",
           "refId": "A"
         }
       ],
@@ -149,7 +151,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Comment Rate",
+      "title": "Docker memory",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -224,7 +226,7 @@
     ]
   },
   "timezone": "",
-  "title": "Business_Logic_Monitoring",
-  "uid": "lNZLINsik",
+  "title": "Telegraf Docker statistics",
+  "uid": "6ARRFdsmk",
   "version": 1
 }

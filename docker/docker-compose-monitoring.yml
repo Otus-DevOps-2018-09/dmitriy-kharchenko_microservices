@@ -13,6 +13,7 @@ services:
        - cadvisor_net
        - grafana_net
        - alert_net
+       - telegraf_net
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -54,7 +55,7 @@ services:
     ports:
       - '8080:8080'
   grafana:
-    image: grafana/grafana:5.0.0
+    image: dkharchenko/grafana
     networks:
       - grafana_net
     volumes:
@@ -73,7 +74,15 @@ services:
     command:
       - '--config.file=/etc/alertmanager/config.yml'
     ports:
-      - 9093:9093 
+      - 9093:9093
+  telegraf:
+    image: ${USERNAME}/telegraf
+    networks:
+      - telegraf_net
+    ports:
+      - 9273:9273
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   prometheus_data:
@@ -86,3 +95,4 @@ networks:
   node_net:
   grafana_net:
   alert_net:
+  telegraf_net:

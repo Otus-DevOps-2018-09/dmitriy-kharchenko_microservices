@@ -1,5 +1,9 @@
 global:
   slack_api_url: 'https://hooks.slack.com/services/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'
+  smtp_smarthost: 'smtp.gmail.com:25'
+  smtp_from: 'dmitriy.kharchenko95@gmail.com'
+  smtp_auth_username: 'dmitriy.kharchenko95'
+  smtp_auth_password: '051095Dd'
 
 route:
   receiver: 'slack-notifications'
@@ -8,3 +12,5 @@ receivers:
 - name: 'slack-notifications'
   slack_configs:
   - channel: '#dmitriy_kharchenko'
+  email_configs:
+  - to: 'dmitriy.kharchenko95@gmail.com'
