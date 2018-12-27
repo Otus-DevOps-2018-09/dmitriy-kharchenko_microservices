@@ -1,11 +1,13 @@
 ---
 - name: Service in docker-compose
   hosts: all
+  become: True
 
   tasks:
-    - name: Reddit app in docker-compose
-      docker-service:
-        project_name: reddit-app
+
+    - name: Docker Service
+      docker_service:
+        project_name: flask
         definition:
           version: '3.3'
           services:
@@ -31,10 +33,3 @@
               networks:
                 - front_net
                 - back_net
-
-          volumes:
-            post_db:
-
-          networks:
-            back_net:
-            front_net:
