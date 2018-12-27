@@ -1,7 +1,6 @@
 ---
 - name: Service in docker-compose
-  hosts: localhost
-  connection: local
+  hosts: all
 
   tasks:
     - name: Reddit app in docker-compose
