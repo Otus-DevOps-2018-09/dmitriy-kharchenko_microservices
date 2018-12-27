@@ -12,24 +12,31 @@
           version: '3.3'
           services:
             post_db:
-              image: mongo:${MONGO_VERSION}
+              image: mongo
               volumes:
                 - post_db:/data/db
               networks:
                 - back_net
             ui:
-              image: ${USERNAME}/ui:${UI_VERSION}
+              image: dkharcheko/ui
               ports:
-                - ${PORT}:9292/tcp
+                - 9292:9292/tcp
               networks:
                 - front_net
             post:
-              image: ${USERNAME}/post:${POST_VERSION}
+              image: dkharcheko/post
               networks:
                 - front_net
                 - back_net
             comment:
-              image: ${USERNAME}/comment:${COMMENT_VERSION}
+              image: dkharcheko/comment
               networks:
                 - front_net
                 - back_net
+
+            volumes:
+              post_db:
+
+            networks:
+              back_net:
+              front_net:
