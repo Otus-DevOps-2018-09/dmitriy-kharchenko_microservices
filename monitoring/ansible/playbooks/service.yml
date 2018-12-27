@@ -1,0 +1,41 @@
+---
+- name: Service in docker-compose
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Reddit app in docker-compose
+      docker-service:
+        project_name: reddit-app
+        definition:
+          version: '3.3'
+          services:
+            post_db:
+              image: mongo:${MONGO_VERSION}
+              volumes:
+                - post_db:/data/db
+              networks:
+                - back_net
+            ui:
+              image: ${USERNAME}/ui:${UI_VERSION}
+              ports:
+                - ${PORT}:9292/tcp
+              networks:
+                - front_net
+            post:
+              image: ${USERNAME}/post:${POST_VERSION}
+              networks:
+                - front_net
+                - back_net
+            comment:
+              image: ${USERNAME}/comment:${COMMENT_VERSION}
+              networks:
+                - front_net
+                - back_net
+
+          volumes:
+            post_db:
+
+          networks:
+            back_net:
+            front_net:
