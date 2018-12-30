@@ -11,7 +11,7 @@
 
     - name: Docker Service
       docker_service:
-        project_name: flask
+        project_name: reddit
         definition:
           version: '3.3'
           services:
