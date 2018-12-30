@@ -9,11 +9,6 @@ services:
     networks:
        - front_net
        - back_net
-       - node_net
-       - cadvisor_net
-       - grafana_net
-       - alert_net
-       - telegraf_net
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -26,7 +21,8 @@ services:
       - /sys:/host/sys:ro
       - /:/rootfs:ro
     networks:
-      - node_net
+       - front_net
+       - back_net
     command:
       - '--path.procfs=/host/proc'
       - '--path.sysfs=/host/sys'
@@ -34,7 +30,8 @@ services:
   mongo-exporter:
     image: xendera/mongodb-exporter
     networks:
-      - back_net
+       - front_net
+       - back_net
     environment:
       - MONGODB_URL=mongodb://post_db
   cloudprober:
@@ -42,11 +39,11 @@ services:
     networks:
        - front_net
        - back_net
-       - node_net
   cadvisor:
     image: google/cadvisor:v0.29.0
     networks:
-      - cadvisor_net
+       - front_net
+       - back_net
     volumes:
       - '/:/rootfs:ro'
       - '/var/run:/var/run:rw'
@@ -57,7 +54,8 @@ services:
   grafana:
     image: dkharchenko/grafana
     networks:
-      - grafana_net
+       - front_net
+       - back_net
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
@@ -70,7 +68,8 @@ services:
   alertmanager:
     image: ${USERNAME}/alertmanager
     networks:
-      - alert_net
+       - front_net
+       - back_net
     command:
       - '--config.file=/etc/alertmanager/config.yml'
     ports:
@@ -78,7 +77,8 @@ services:
   telegraf:
     image: ${USERNAME}/telegraf
     networks:
-      - telegraf_net
+       - front_net
+       - back_net
     ports:
       - 9273:9273
     volumes:
@@ -91,8 +91,3 @@ volumes:
 networks:
   back_net:
   front_net:
-  cadvisor_net:
-  node_net:
-  grafana_net:
-  alert_net:
-  telegraf_net:
