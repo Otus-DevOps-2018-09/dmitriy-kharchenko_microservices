@@ -3,7 +3,7 @@ global:
   smtp_smarthost: 'smtp.gmail.com:25'
   smtp_from: 'dmitriy.kharchenko95@gmail.com'
   smtp_auth_username: 'dmitriy.kharchenko95'
-  smtp_auth_password: '051095Dd'
+  smtp_auth_password: 'example_password'
   http_config:
     basic_auth:
       username: admin
