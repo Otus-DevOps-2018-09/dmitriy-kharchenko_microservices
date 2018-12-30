@@ -4,4 +4,15 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: http://prometheus:9090
+    url: http://trickster:9090
+
+  - name: Stackdriver
+    type: stackdriver
+    access: proxy
+    jsonData:
+      tokenUri: https://oauth2.googleapis.com/token
+      clientEmail: grafana@docker-223604.iam.gserviceaccount.com
+      authenticationType: jwt
+      defaultProject: docker-223604
+    secureJsonData:
+      privateKey: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDMAak14PixE/66\nI1q8FvlmEBQUUd+qic/UYXAWkBTWtx4HuHi7VFuOLB9KC+M9UDt652LEuzqZmzEV\n0XJuvjeXs6Y1UCzYR1W78LIFTfSzN76ieXAEIoRBzr08764nb76IkJoWgvsXWkam\nVciztZf4lECJH5+ahgM1MZh64giliAy5h8sY3zg0M0v/uM2WIXIMiufijIcLJiwB\n5PMxsZTYZiDXnaPzrQXnaWVyDktnvrlahGu51QCG4sb1IN+pOg5vPs+DPvskYckF\n/boP7iRzQ5oeLt/LnSMjxKa76RdM1g3ykzVoWeHVpnwPQZX8+z6SsFk04brSKjNV\nc79rFlzBAgMBAAECggEACBSnwxsrFqPesuOhct0BGiPDES6mCqSvT1pgXNBuYYvl\nfAj4pUjuiyI1x2fS+N6DoKG82ziPAL8cMbZMZKpoXCaw9nXQykIBxBzrsZiYe6cs\nCAEB6MlaOPDAtQLJwJpP7yu1IspOOlWogesDdRTZam6q42jrLZfR1YqmSiBybGYL\nVPEVLYyuyE86umqpC8iLureEBAheJ+IPxxb2oT7IrMAJldW/l2z0sc1sBQdqsVlX\nw+1G427Vh22YxjAgJdByDKy3hiwvPDhli1wil6kHeQwB5UeSfPRJcIcf3MmTuu8x\n67TBCgBFbBz2yyFVNG0+hdXpNLFpZbjbmkKJ6b4TvQKBgQDkspo1mq8ZY85McCRa\nEJh+F6YBOb7gczMO1p/tBUK6II0omS1b3uZWyokDpWOr00yKLPIt+y9uDHAHefG4\nbzsmP07cjtkA3Tf3bNf9k4GVJ4tRsb2Zg4CxM1rJvv6m9867aytQl8Ge1jyyqOve\nGI5X3zaJWL6aVYemY4JCk0m2RQKBgQDkXHQPb33OOo/ovc0HI7cBbLriSFn87IZQ\n4vn4yEFma+AiuBT4Uww2k/xEVZ47vMbRmwPO2Ka+Ljz7aXFwjcT3gqAj+lovhhef\nYI6HdXOOfbqB57U8ZqezsYXXC/oofSxAiHDFD1Esz+yYG12dnkgB1l4v4rdrr2OX\n0oc8b2YCTQKBgQCW4TIV7WBZ6tu+2DlTZiGFBssRgexpHfdwca5+6/qS20jloPEo\n7Eygs+xjCGlSggu8GV0Jcu9etjvu4sfTeybV2+yGXIPUKx5yUU/KTtet9LHYit/g\neL6dqZjbAvP0agbs5Q5llEk8JnFTGVjLZP38ARp00KSnI4hkAMB+dbeq1QKBgDs0\nWQazchtohWzi4GgMc2LULLOD7IitTblkz0gXqxUBvM9jiFRFO7JetZWF2QtFywoG\ntXsIIlrGJBtOYBG9P6an4BrTylPt4Ov6HZmy8q2rnRIW3570QmBNExUIzud2ZGWq\nugntCa+jjIR2+9NkeOi5ChxCHCm4BAsVkugxPXI1AoGAX2HSbRvaJXI7IXFgQ68p\nosXsUAUZMDN9m4zWjjN1hwK1kUpfwTwx7KjMca+Qs0BeCN9p2GqZ5SZ9w1Epm15N\n3jHDRnI7EXJYeRYcpbYLb7HBv2Xca3SJ8eKTIyDVEzQUT/mIt9OWOAENY40AuI3K\nlASYpmOvJ9JZTNlBSfWRBoQ=\n-----END PRIVATE KEY-----\n"

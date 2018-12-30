@@ -22,6 +22,9 @@ alertmanager:
 grafana:
 	cd monitoring/grafana && docker build -t ${USER_NAME}/grafana .
 
+telegraf:
+	cd monitoring/telegraf && docker build -t ${USER_NAME}/telegraf .
+
 push_comment:
 	docker push ${USER_NAME}/comment
 
@@ -42,3 +45,6 @@ push_alertmanager:
 
 push_grafana:
 	docker push ${USER_NAME}/grafana
+
+push_telegraf:
+	docker push ${USER_NAME}/telegraf

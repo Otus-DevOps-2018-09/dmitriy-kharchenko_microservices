@@ -92,3 +92,5 @@ dmitriy-kharchenko microservices repository
 # Monitoring 2
 
 [Docker Hub](https://hub.docker.com/u/dkharchenko)
+
+Связка Autoheal + AWX не реализована в данном ДЗ, т.к. для работы Autoheal нужен Kubernetes кластер.

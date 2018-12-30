@@ -132,6 +132,11 @@
                 - 9273:9273
               volumes:
                 - /var/run/docker.sock:/var/run/docker.sock
+            trickster:
+            image: tricksterio/trickster:0.1.5
+            command: -origin http://prometheus:9090
+            networks:
+              - back_net
           volumes:
             prometheus_data:
             grafana_data:

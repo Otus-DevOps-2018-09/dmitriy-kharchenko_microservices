@@ -4,6 +4,10 @@ global:
   smtp_from: 'dmitriy.kharchenko95@gmail.com'
   smtp_auth_username: 'dmitriy.kharchenko95'
   smtp_auth_password: '051095Dd'
+  http_config:
+    basic_auth:
+      username: admin
+      password: password
 
 route:
   receiver: 'slack-notifications'
@@ -11,6 +15,8 @@ route:
 receivers:
 - name: 'slack-notifications'
   slack_configs:
-  - channel: '#dmitriy_kharchenko'
+    - channel: '#dmitriy_kharchenko'
   email_configs:
-  - to: 'dmitriy.kharchenko95@gmail.com'
+    - to: 'dmitriy.kharchenko95@gmail.com'
+  webhook_configs:
+    - url: http://35.195.113.53/api/v2/job_templates/7/launch/
