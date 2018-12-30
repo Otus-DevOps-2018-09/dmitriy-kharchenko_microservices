@@ -1,0 +1,15 @@
+- hosts: awx
+  become: true
+
+  vars:
+    nodejs_version: "6.x"
+    pip_install_packages:
+      - name: docker
+
+  roles:
+    - geerlingguy.git
+    - geerlingguy.ansible
+    - geerlingguy.docker
+    - geerlingguy.pip
+    - geerlingguy.nodejs
+    - geerlingguy.awx
