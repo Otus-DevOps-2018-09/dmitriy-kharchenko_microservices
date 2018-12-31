@@ -93,4 +93,5 @@ dmitriy-kharchenko microservices repository
 
 [Docker Hub](https://hub.docker.com/u/dkharchenko)
 
-Связка Autoheal + AWX не реализована в данном ДЗ, т.к. для работы Autoheal нужен Kubernetes кластер.
+Связка Autoheal + AWX не реализована в данном ДЗ, т.к. для работы Autoheal нужен Kubernetes кластер,
+поэтому рестарт сервиса реализован черех Alertmanager + AWX
