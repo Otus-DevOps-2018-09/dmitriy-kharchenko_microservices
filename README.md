@@ -95,3 +95,5 @@ dmitriy-kharchenko microservices repository
 
 Связка Autoheal + AWX не реализована в данном ДЗ, т.к. для работы Autoheal нужен Kubernetes кластер,
 поэтому рестарт сервиса реализован черех Alertmanager + AWX
+
+# Logging 1
