@@ -12,6 +12,8 @@ services:
       - ${PORT}:9292/tcp
     networks:
       - front_net
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED} 
     logging:
       driver: "fluentd"
       options:
@@ -22,6 +24,8 @@ services:
     networks:
       - front_net
       - back_net
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
     logging:
       driver: "fluentd"
       options:
@@ -29,6 +33,8 @@ services:
         tag: service.post
   comment:
     image: ${USERNAME}/comment:${COMMENT_VERSION}
+    environment:
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED} 
     networks:
        - front_net
        - back_net
