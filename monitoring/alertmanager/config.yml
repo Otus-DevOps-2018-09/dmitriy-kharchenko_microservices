@@ -1,0 +1,22 @@
+global:
+  slack_api_url: 'https://hooks.slack.com/services/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'
+  smtp_smarthost: 'smtp.gmail.com:25'
+  smtp_from: 'dmitriy.kharchenko95@gmail.com'
+  smtp_auth_username: 'dmitriy.kharchenko95'
+  smtp_auth_password: 'example_password'
+  http_config:
+    basic_auth:
+      username: admin
+      password: password
+
+route:
+  receiver: 'slack-notifications'
+
+receivers:
+- name: 'slack-notifications'
+  slack_configs:
+    - channel: '#dmitriy_kharchenko'
+  email_configs:
+    - to: 'dmitriy.kharchenko95@gmail.com'
+  webhook_configs:
+    - url: http://35.195.113.53/api/v2/job_templates/7/launch/

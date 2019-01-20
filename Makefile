@@ -1,5 +1,5 @@
-build: comment post ui cloudprober prometheus
-push: push_comment push_post push_ui push_cloudprober
+build: comment post ui cloudprober prometheus alertmanager grafana
+push: push_comment push_post push_ui push_cloudprober push_prometheus push_alertmanager push_grafana
 
 comment:
 	cd src/comment && bash docker_build.sh
@@ -16,6 +16,15 @@ cloudprober:
 prometheus:
 	cd monitoring/prometheus && docker build -t ${USER_NAME}/prometheus .
 
+alertmanager:
+	cd monitoring/alertmanager && docker build -t ${USER_NAME}/alertmanager .
+
+grafana:
+	cd monitoring/grafana && docker build -t ${USER_NAME}/grafana .
+
+telegraf:
+	cd monitoring/telegraf && docker build -t ${USER_NAME}/telegraf .
+
 push_comment:
 	docker push ${USER_NAME}/comment
 
@@ -30,3 +39,12 @@ push_cloudprober:
 
 push_prometheus:
 	docker push ${USER_NAME}/prometheus
+
+push_alertmanager:
+	docker push ${USER_NAME}/alertmanager
+
+push_grafana:
+	docker push ${USER_NAME}/grafana
+
+push_telegraf:
+	docker push ${USER_NAME}/telegraf
