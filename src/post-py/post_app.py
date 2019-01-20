@@ -12,6 +12,9 @@ from helpers import http_healthcheck_handler, log_event
 from py_zipkin.zipkin import zipkin_span, ZipkinAttrs
 from py_zipkin.transport import BaseTransportHandler
 
+REQUEST_DB_LATENCY = prometheus_client.Histogram('post_read_db_seconds', 'Request DB time')
+POST_COUNT = prometheus_client.Counter('post_count', 'A counter of new posts')
+VOTE_COUNT = prometheus_client.Counter('vote_count', 'A counter of votes')
 
 CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
 POST_DATABASE_HOST = os.getenv('POST_DATABASE_HOST', '127.0.0.1')
