@@ -1,0 +1,151 @@
+---
+- hosts: controllers
+  become: True
+  tasks:
+    - name: Install etcd
+      unarchive:
+        remote_src: yes
+        src: https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz
+        dest: /home/Dmitry
+
+    - name: Copy etcd binaries
+      tags:
+        - copy
+      copy:
+        src: "/home/Dmitry/etcd-v3.3.9-linux-amd64/{{ item }}"
+        dest: /usr/local/bin/
+        remote_src: yes
+        owner: root
+        group: root
+        mode: u+x,g+x,o+x
+      loop:
+        - etcd
+        - etcdctl
+
+    - name: Create directories etcd
+      file:
+        path: "{{ item }}"
+        state: directory
+      loop: 
+        - /etc/etcd
+        - /var/lib/etcd
+        - /etc/kubernetes/config
+
+    - name: Copy certs into /etc/etcd
+      copy:
+        src: "/home/Dmitry/{{ item }}"
+        dest: /etc/etcd
+        remote_src: yes
+      loop:
+        - ca.pem 
+        - kubernetes-key.pem 
+        - kubernetes.pem
+
+    - name: Get internal IP
+      raw: 'curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip'
+      register: internal_ip
+    
+    - name: Register internal IP
+      set_fact: internal_ip="{{ internal_ip.stdout | ipv4 }}"
+    
+    - name: Copy unit config
+      template:
+        src: templates/etcd.service.j2
+        dest: /etc/systemd/system/etcd.service
+        owner: root
+        group: root
+        mode: '0600'
+          
+    - name: Make sure a service is running
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name: etcd
+    
+    - name: Download and Install the Kubernetes Controller Binaries
+      get_url:
+        url: "{{ item }}"
+        dest: /usr/local/bin/
+        mode: u+x,g+x,o+x
+      tags:
+        - install
+      loop:
+        - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kube-apiserver
+        - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kube-controller-manager
+        - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kube-scheduler
+        - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
+
+    - name: Create /var/lib/kubernetes/
+      file: path=/var/lib/kubernetes/ state=directory mode=0755
+    
+    - name: Copy certs to /var/lib/kubernetes/
+      copy:
+        src: "/home/Dmitry/{{ item }}"
+        dest: /var/lib/kubernetes/
+        remote_src: yes
+      loop:
+        - ca.pem 
+        - ca-key.pem 
+        - kubernetes-key.pem 
+        - kubernetes.pem
+        - service-account-key.pem
+        - service-account.pem
+        - encryption-config.yaml
+        - kube-controller-manager.kubeconfig
+        - kube-scheduler.kubeconfig
+    
+    - name: Copy kube-apiserver.service
+      template:
+        src: templates/kube-apiserver.service.j2
+        dest: /etc/systemd/system/kube-apiserver.service
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Copy ube-controller-manager.service && kube-scheduler.service
+      copy:
+        src: "files/{{ item }}"
+        dest: "/etc/systemd/system/{{ item }}"
+        owner: root
+        group: root
+        mode: '0600'
+      loop:
+        - kube-controller-manager.service
+        - kube-scheduler.service
+    
+    - name: Copy kube-scheduler.yaml
+      copy:
+        src: files/kube-scheduler.yaml
+        dest: /etc/kubernetes/config/kube-scheduler.yaml
+        owner: root
+        group: root
+        mode: '0600'
+    
+    - name: Make sure a service is running
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name: "{{ item }}"
+      loop:
+        - kube-apiserver
+        - kube-controller-manager
+        - kube-scheduler
+    
+    - name: Install nginx
+      apt:
+        name: nginx
+        update_cache: yes
+
+    - name: Copy nginx config
+      copy:
+        src: files/kubernetes.default.svc.cluster.local
+        dest: /etc/nginx/sites-enabled/kubernetes.default.svc.cluster.local
+    
+    - name: Make sure a service is running
+      systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name: nginx
