@@ -1,0 +1,26 @@
+---
+- hosts: workers
+  become: True
+  tasks:
+
+  - name: Create directories
+    file:
+      path: "{{ item }}"
+      state: directory
+    loop:
+      - /etc/cni/net.d
+      - /opt/cni/bin
+      - /var/lib/kubelet
+      - /var/lib/kube-proxy
+      - /var/lib/kubernetes
+      - /var/run/kubernetes
+
+  - name: Install kube utils
+    get_url:
+      url: "{{ item }}"
+      dest: /usr/local/bin/
+      mode: u+x,g+x,o+x
+    loop:
+      - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl
+      - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kube-proxy
+      - https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubelet
