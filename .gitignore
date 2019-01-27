@@ -7,5 +7,5 @@ variables.json
 *.retry
 *.env
 roles/
-gitlab-omnibus
 *.tgz
+*/Gitlab_ci/*
