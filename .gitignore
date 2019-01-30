@@ -7,3 +7,5 @@ variables.json
 *.retry
 *.env
 roles/
+*.tgz
+*/Gitlab_ci/*
