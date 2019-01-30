@@ -48,7 +48,7 @@ dmitriy-kharchenko microservices repository
 
 # Docker 4 
 
-Имя контейнера можно задать через параметр `container_name` compose-файла.
+Имя проекта можно задать через параметр `-p` при вызове `docker-compose`.
 
 В процессе работы сделано:
 
